@@ -44,7 +44,14 @@ for (let i = idx; i < process.argv.length; i++) {
 }
 
 // App is quitting
-app.on('before-quit', () => quittingApp = true);
+app.on('before-quit', (event) => {
+    quittingApp = true
+    client.write(consts.targetIds.app, consts.eventNames.appEventBeforeQuit, {data: {event: event}})
+});
+
+app.on('activate', (event, hasVisibleWindows) => {
+    client.write(consts.targetIds.app, consts.eventNames.appEventActivate, {data: {event: event, hasVisibleWindows: hasVisibleWindows}})
+});
 
 // App is ready
 app.on('ready',() => {

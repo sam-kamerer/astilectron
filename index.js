@@ -18,9 +18,9 @@ let quittingApp = false;
 let lastWindow = null;
 
 // App is quitting
-const beforeQuit = () => {
+const beforeQuit = (event) => {
     quittingApp = true;
-    client.write(consts.targetIds.app,consts.eventNames.appCmdQuit);
+    client.write(consts.targetIds.app,consts.eventNames.appCmdQuit, {data: {event: event}});
 };
 
 // App is ready

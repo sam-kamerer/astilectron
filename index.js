@@ -291,7 +291,12 @@ function onReady () {
             notification: Notification.isSupported()
         }
     })
-};
+}
+
+// App activate
+function activate(event, hasVisibleWindows) {
+    client.write(consts.targetIds.app, consts.eventNames.appEventActivate, {data: {event: event, hasVisibleWindows: hasVisibleWindows}})
+}
 
 // start begins listening to go-astilectron.
 function start(address = process.argv[2]) {
@@ -299,6 +304,7 @@ function start(address = process.argv[2]) {
     rl = readline.createInterface({ input: client.socket });
 
     app.on("before-quit", beforeQuit);
+    app.on('activate', activate);
     if (app.isReady()) {
         onReady();
     } else {
